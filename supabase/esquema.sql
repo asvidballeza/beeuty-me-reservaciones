@@ -177,3 +177,13 @@ $$;
 
 revoke execute on function public.horarios_ocupados(uuid, timestamptz, timestamptz) from anon;
 revoke execute on function public.reservar_cita(uuid, timestamptz) from anon;
+
+-- 9. Permisos explícitos para el rol de usuarios autenticados
+--    (la seguridad por fila sigue limitando qué filas ve y modifica cada quien)
+grant usage on schema public to authenticated;
+grant select on public.perfiles, public.servicios, public.horarios, public.citas to authenticated;
+grant update on public.perfiles to authenticated;
+grant insert, delete on public.servicios to authenticated;
+grant insert, update, delete on public.horarios to authenticated;
+grant execute on function public.horarios_ocupados(uuid, timestamptz, timestamptz) to authenticated;
+grant execute on function public.reservar_cita(uuid, timestamptz) to authenticated;
